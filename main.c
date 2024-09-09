@@ -6,7 +6,7 @@
 /*   By: etamazya <etamazya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:42:13 by etamazya          #+#    #+#             */
-/*   Updated: 2024/08/31 17:52:29 by etamazya         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:49:46 by etamazya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,7 @@ int main(int argc, char **argv, char **envp)
         printf("Input: %s\n", input);
         free(input);
     }
-    return ;
-    // print_();
-    return 0;
+    return (0);
 }
 
 
