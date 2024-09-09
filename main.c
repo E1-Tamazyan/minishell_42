@@ -6,7 +6,7 @@
 /*   By: etamazya <etamazya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:42:13 by etamazya          #+#    #+#             */
-/*   Updated: 2024/09/09 17:49:46 by etamazya         ###   ########.fr       */
+/*   Updated: 2024/09/09 20:09:07 by etamazya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,40 @@
 
 void take_input(char **input, char **argv)
 {
-    (void)input;
+    // char    *p;
+    // int count;
+    char    **str;
     (void)argv;
+    
+    p = NULL;
+    *input = readline("Enter command: ");
+    if (!*input)
+        return ;
+    add_history(*input);
+    check_db_quote(input);
+    str = check_db_quote();
+}
 
-    printf("take input\n");
+int check_db_quote(char *str)
+{
+    size_t  i;
+    size_t  count;
+    char    *p;
+    char    *p1;
+
+    i = 0;
+    count = 0;
+    while (*str)
+    {
+        if (*str == '"')
+            count += 1;
+        p = str;
+        if(count == 2)
+            p1 = str;
+        printf("hereeee %p, | %s\n", str, p1);
+        str++;
+    }
+    return (count);
 }
 
 int main(int argc, char **argv, char **envp)
@@ -28,13 +58,7 @@ int main(int argc, char **argv, char **envp)
     char *input;
 
     take_input(&input, argv);
-    while ((input = readline("Enter command: ")) != NULL)
-    {
-        if (*input)
-            add_history(input);
-        printf("Input: %s\n", input);
-        free(input);
-    }
+    printf("dsfs = %s\n", input);
     return (0);
 }
 
