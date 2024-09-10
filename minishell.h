@@ -6,7 +6,7 @@
 /*   By: etamazya <etamazya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:42:32 by etamazya          #+#    #+#             */
-/*   Updated: 2024/09/09 20:08:58 by etamazya         ###   ########.fr       */
+/*   Updated: 2024/09/10 13:51:52 by etamazya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 void    my_exit(char *msg);
 void    take_input(char **input, char **argv);
-void    *check_db_quote(char *str);
+// void    *check_db_quote(char *str);
 //void (*signal(int signum, void (*handler)(int)))(int);
 
 #endif

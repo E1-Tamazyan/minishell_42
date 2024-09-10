@@ -6,7 +6,7 @@
 /*   By: etamazya <etamazya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:42:13 by etamazya          #+#    #+#             */
-/*   Updated: 2024/09/09 20:09:07 by etamazya         ###   ########.fr       */
+/*   Updated: 2024/09/10 19:00:55 by etamazya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,36 +16,34 @@ void take_input(char **input, char **argv)
 {
     // char    *p;
     // int count;
-    char    **str;
+    // char    **str;
     (void)argv;
     
-    p = NULL;
-    *input = readline("Enter command: ");
+    // p = NULL;
+    *input = readline("CMD: ");
     if (!*input)
         return ;
     add_history(*input);
-    check_db_quote(input);
-    str = check_db_quote();
+    // check_db_quote(input);
+    // str = check_db_quote();
 }
 
 int check_db_quote(char *str)
 {
     size_t  i;
     size_t  count;
-    char    *p;
-    char    *p1;
+    char    *p_to_start;
+    // char    *p_to_end;
 
     i = 0;
     count = 0;
-    while (*str)
+    p_to_start = NULL;
+    while (*str != '\0')
     {
-        if (*str == '"')
-            count += 1;
-        p = str;
-        if(count == 2)
-            p1 = str;
-        printf("hereeee %p, | %s\n", str, p1);
-        str++;
+        if (*str == 34) // "
+            *p_to_start = &str;
+        if(*str == 39) // '
+        printf("pointer = %s , p = %p\n", p_to_start, p_to_start);
     }
     return (count);
 }
