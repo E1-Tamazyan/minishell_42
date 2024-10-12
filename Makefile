@@ -18,7 +18,11 @@ HEADERS = minishell.h
 
 OBJS_DIR = objects/
 
-SRCS_NAME =	main.c mini_utils.c
+SRCS_NAME =	main.c mini_utils.c \
+			lib_utils.c lib_utils_1.c \
+			sort_env.c initialization.c \
+			checks.c token_utils.c \
+			print_fts.c \
 
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))
 OBJS_NAME = $(SRCS_NAME:.c=.o)
@@ -31,7 +35,7 @@ $(NAME): $(OBJS)
 # $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADERS) Makefile
 $(OBJS_DIR)%.o: %.c $(HEADERS) Makefile
 	@mkdir -p $(OBJS_DIR)
-	@mkdir -p $(OBJS_DIR)/tokenization
+	@mkdir -p $(OBJS_DIR)/init_some_tokens
 	@mkdir -p $(OBJS_DIR)/utils
 	$(CC) $(CFLAGS) -c $< -o $@ 
 
