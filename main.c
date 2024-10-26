@@ -6,7 +6,7 @@
 /*   By: etamazya <etamazya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:42:13 by etamazya          #+#    #+#             */
-/*   Updated: 2024/10/06 17:07:26 by etamazya         ###   ########.fr       */
+/*   Updated: 2024/10/26 11:24:58 by etamazya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ int main(int argc, char **argv, char **env)
     if (argc == 1)
     {
         if (init_input(input, general, env)) // if 1 error
-            return (free(general), 0);
-        // printf("input = %s\n", input);
+            return (free(general), 1);
     }
     return (free(general), 0);
 }

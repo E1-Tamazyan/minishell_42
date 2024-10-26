@@ -16,7 +16,7 @@
 // *** WARNING *** FULL ***
 // ************************
 
-//5 functions already
+//5 ->6 functions already
 
 void put_key(t_env *node, char	*src)
 {
@@ -95,6 +95,25 @@ int	sgmnt_len(const char *str, int *pos)
 	return (counter);
 }
 
+
+void	clean_list(t_token **list)
+{
+	t_token	*temp;
+	t_token	*next;
+
+	temp = *list;
+	while (temp != NULL)
+	{
+		next = temp->next;
+		free(temp);
+		temp = next;
+	}
+	*list = NULL;
+}
+
+// ************************
+// ******* FUR MICH *******
+// ************************
 void print_tokens(t_token *head)
 {
     t_token *current; 
@@ -102,7 +121,8 @@ void print_tokens(t_token *head)
 	current = head;
     while (current != NULL)
 	{
-        // printf("context: %s\n, Type: %d\n", current->context, current->type);
+        printf("context: %s\n type: %d\n", current->context, current->type);
         current = current->next;
     }
-}
+} 
+

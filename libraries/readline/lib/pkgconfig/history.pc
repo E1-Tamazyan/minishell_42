@@ -1,4 +1,4 @@
-prefix=/Users/etamazya/Desktop/minishell_copy/libraries/readline
+prefix=/Users/etamazya/Desktop/minishell/libraries/readline
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include
