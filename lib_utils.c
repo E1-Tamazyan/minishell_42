@@ -6,7 +6,7 @@
 /*   By: etamazya <etamazya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:45:48 by etamazya          #+#    #+#             */
-/*   Updated: 2024/10/06 19:09:38 by etamazya         ###   ########.fr       */
+/*   Updated: 2024/10/30 19:46:41 by etamazya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,11 @@ t_env	*ft_lstnew(char *context) // contains blabla = blabla=bla
 	node = malloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
+		// printf("bareev\n");
 	put_key(node, context);
+		printf("1_bareev\n");
 	put_value(node, context);
+		printf("2_bareev\n");
 	node -> next = NULL;
 	// system("leaks minishell"); //boooom
 	return (node);
@@ -48,19 +51,22 @@ void	ft_lstadd_back(t_env **lst, t_env *node)
 	current->next = node;
 }
 
-void	ft_strlcpy(char *dest, const char *src, int size, int pos)
+void	ft_strlcpy(char *dest, const char *src, int size, int pos, char limiter)
 {
 	int	i;
 
 	i = 0;
-	while (i < size && src[pos] != '\n')
+	while (i < size && src[pos] != limiter)
 	{
 		dest[i] = src[pos];
 		i++;
 		pos++;
 	}
+	if (limiter)
+		dest[i++] = limiter;
 	if (i <= size)
 		dest[i] = '\0';
+	// printf("3_ola\n");
 }
 
 int	ft_strcmp(const char *s1, const char *s2)
@@ -76,7 +82,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 			res = (int)(unsigned char)s1[i] - (int)(unsigned char)s2[i];
 			return (res);
 		}
-		i++;
+		i++;	
 	}
 	return (0);
 }

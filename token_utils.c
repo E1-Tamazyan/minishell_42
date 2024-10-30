@@ -6,13 +6,13 @@
 /*   By: etamazya <etamazya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:18:12 by etamazya          #+#    #+#             */
-/*   Updated: 2024/10/23 11:10:58 by etamazya         ###   ########.fr       */
+/*   Updated: 2024/10/30 13:29:50 by etamazya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// **** 3 functions ****
+// **** 4 functions ****
 
 int	check_sgl_quote(const char *input, int *i)
 {
@@ -46,29 +46,6 @@ int check_quotes(const char *input, int i)
 	check_sgl_quote(input, &i);
 	return (i);
 }
-
-// char	**split_tokens(const char *input)
-// {
-// 	int		count;
-// 	char	**str;
-
-// 	count = 0;
-// 	if (input)
-// 	{
-// 		count = count_tokens(input);
-// 		if (count == -1)
-// 			return (NULL);
-// 	}
-// 	str = malloc((count + 1) * sizeof(char *));
-// 	if (!str)
-// 		return (0);
-// 	str[count] = NULL;
-// 	// if (count > 0)
-// 		//make tokens list;
-// 	return (str);
-// }
-
-
 
 void	add_token_list(t_token **list, char *content, t_ttype type)
 {

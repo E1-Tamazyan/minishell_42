@@ -6,117 +6,116 @@
 /*   By: etamazya <etamazya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 10:41:54 by etamazya          #+#    #+#             */
-/*   Updated: 2024/10/26 18:54:48 by etamazya         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:17:03 by etamazya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// 2 function
+// 3 function
 
-int check_input(char **env, char *input, t_shell *general)
+int check_input(char **env, t_shell *general)
 {
     char    **sorted;
+	t_token	*tmp;
 
-    if (ft_strcmp((const char *)input, (const char *)"env") == 0)
-    {
-        general -> env_lst = init_env_nodes(env);
-        print_env(general -> env_lst, 0);
-        return (0);
-    }
-    else if (ft_strcmp((const char *)input, (const char *)"export") == 0)
-    {
-        sorted = sort_env(env);
-        general -> env_lst = init_env_nodes(sorted);
-        print_env(general -> env_lst, 1);
-        return (0);
-    }
-    // to be continued...
+	tmp = general->tok_lst;
+	(void)sorted;
+	while (tmp)
+	{
+		if (ft_strcmp((const char *)general->tok_lst->context, (const char *)"env") == 0)
+		{
+			general -> env_lst = init_env_nodes(env);
+			print_env(general -> env_lst, 0);
+			return (0);
+		}
+		tmp = tmp->next;
+	}
     return (0);
 }
 
-int	init_op_token(const char *input, int i, t_token *token_list)
+int	new_check_quotes(const char *input, int i, t_shell *general)
 {
-	// printf("v=barevvvv\n");
-	if (input[i] && input[i] == '|')
-		add_token_list(&token_list, my_substr(input, i, 1), 1);
-	else if (input[i] && input[i] == ' ')
-		add_token_list(&token_list, my_substr(input, i, 1), 0);
-	else if (input[i] && input[i] == '>')
-		if (input[i] && input[++i] && input[i] && input[i] == '>')
-			return (add_token_list(&token_list, my_substr(input, i - 1, 2), 4), i);
-		else
-			add_token_list(&token_list, my_substr(input, --i, 1), 3);
-	else if (input[i] && input[i] == '<')
-	{
-		if (input[i] && input[++i] && input[i] && input[i] == '<')
-			return (add_token_list(&token_list, my_substr(input, i - 1, 2), 5), i);
-		else
-			add_token_list(&token_list, my_substr(input, --i, 1), 2);
-	}
-	return (i);
-}
-
-int	new_check_quotes(const char *input, int i, t_token *t_list)
-{		
-	int closing_quote;
+	int start;
 	int flag;
-
-	flag = 0;
-	closing_quote = 0;
-	(void)t_list;
-	while (input[i])
+	
+	if (input[i] && input[i] == '"')
 	{
-		if (input[i] == 34)
-		{
-			flag = 1;
-			while (input[i] && input[++i] && input[i] != 34) // && input[i + 1] == ' ' // consider later
-				flag = 0;
-			if (!input[i] && flag == 0)
-				return (printf("Missing double quote\n"), -1);
-			else
-				closing_quote = i;
-			printf("*** = %d\n", closing_quote);
-		}
-		// what to do to get out of here
-		if (input[i] == 39)
-		{
-			i = new_check_sgl_quote(input, i, t_list);
-			if (i == -1)
-				return (-1);
-		}
-		i++;
+		flag = 1;
+		start = i;
+		i += 1;
+		while (input[i] && input[i] != '"')
+			i++;
+		if (input[i] && input[i] == '"')
+			flag = 0;
+		if (!input[i] && flag)
+			return (printf("Missing double quote\n"), -1);
+		else
+			add_token_list(&general->tok_lst, my_substr(input, start, ((i - start) + 1)), 8);
+		i += 1;
 	}
-	// add_token_list(&token_list, my_substr(input, i, 1), 1);
-	// here should be add_token_list with create_token function;
-	printf("bye_quote\n");
+	else if (input[i] && input[i] == '\'')
+		i = new_check_sgl_quote(input, i, general);
 	return (i);
 }
 
-int new_check_sgl_quote(const char *input, int i, t_token *t_list)
+int new_check_sgl_quote(const char *input, int i, t_shell *general)
 {
 	int flag;
-	int closing_quote;
-
-	flag = 0;
-	closing_quote = 0;
-	(void)t_list;
-	while (input[i])
+	int start;
+	
+	if (input[i] && input[i] == '\'')
 	{
-		if (input[i] == 39)
-		{
-			flag = 1;
-			while (input[i] && input[++i] && input[i] && input[i] != 39) // && input[i + 1] == ' ' // consider later
-				flag = 0;
-			printf("***> input[i] = %c, %d\n", input[i], i);
-			if (!input[i])
-				return (printf("Missing single quote\n"), -1);
-			else
-				closing_quote = i;
-		}
-		i++;
+		flag = 1;
+		start = i;	
+		i += 1;
+		while (input[i] && input[i] != '\'')
+			i++;
+		if (input[i] && input[i] == '\'')
+			flag = 0;
+		if (!input[i] && flag)
+			return (printf("Missing single quote\n"), -1);
+		else
+			add_token_list(&general->tok_lst, my_substr(input, start, ((i - start) + 1)), 8);
+		i += 1;
 	}
-	// here should be add_token_list with create_token function;
-	printf("bye_single_quote\n");
 	return (i);
 }
+
+
+// *********** ARCHIVE ***********
+// int check_input(char **env, t_shell *general)
+// {
+//     char    **sorted;
+
+// 	// while (general->token)
+// 	// 
+// 	// do loop on the t_token list and  check every context
+//     if (ft_strcmp((const char *)general->tok_lst, (const char *)"env") == 0)
+//     {
+//         general -> env_lst = init_env_nodes(env);
+//         print_env(general -> env_lst, 0);
+//         return (0);
+//     }
+//     else if (ft_strcmp((const char *)input, (const char *)"export") == 0)
+//     {
+//         sorted = sort_env(env);
+//         general -> env_lst = init_env_nodes(sorted);
+//         print_env(general -> env_lst, 1);
+//         return (0);
+//     }
+//     // if (ft_strcmp((const char *)general->tok_lst, (const char *)"env") == 0)
+//     // {
+//     //     general -> env_lst = init_env_nodes(env);
+//         // print_env(general -> env_lst, 0);
+//     //     return (0);
+//     // }
+//     // else if (ft_strcmp((const char *)input, (const char *)"export") == 0)
+//     // {
+//     //     sorted = sort_env(env);
+//     //     general -> env_lst = init_env_nodes(sorted);
+//     //     print_env(general -> env_lst, 1);
+//     //     return (0);
+//     // }
+//     return (0);
+// }

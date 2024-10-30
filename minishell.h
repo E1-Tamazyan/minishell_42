@@ -6,7 +6,7 @@
 /*   By: etamazya <etamazya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:42:32 by etamazya          #+#    #+#             */
-/*   Updated: 2024/10/26 15:40:57 by etamazya         ###   ########.fr       */
+/*   Updated: 2024/10/30 19:46:45 by etamazya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,15 @@ typedef struct s_shell
 	t_token		*tok_lst;
 	t_env		*env_lst;
 	int			shlvl; // check
-	char		pwd; // check
-	char		*oldpwd; // check
+	// char		pwd; // check
+	// char		*oldpwd; // check
 }			   t_shell;
 //**************************************
 
 // ***_____main_functions_____***
 int		init_input(char *input, t_shell *gen, char **env);
-int		check_input(char **env, char *input, t_shell *general);
+int		check_input(char **env, t_shell *general);
 t_env	*init_env_nodes(char **env);
-// // void    *check_db_quote(char *str);
 
 // ***____env_sorting_____***
 char    **sort_env(char **env);
@@ -82,32 +81,36 @@ void	print_tokens(t_token *head);
 void	my_list_iter(t_token *head);
 
 // ***_____lib utils_____***
-void	ft_strlcpy(char *dest, const char *src, int size, int pos);
+void	ft_strlcpy(char *dest, const char *src, int size, int pos, char limiter);
 t_env   *ft_lstnew(char *context);
 void    ft_lstadd_back(t_env **lst, t_env *node);
 int	    ft_strcmp(const char *s1, const char *s2);
 int		ft_strlen(const char *str);
 char	*my_substr(const char *s, unsigned int start, int len);
-// char	*ft_substr(char const *s, unsigned int start, int len);
 
 // ***_____tokenization_____***
-short	init_tokens(const char *input, t_shell *general);
-// int		count_tokens(const char *s);
-// char	**split_tokens(const char *s);
-// int		check_quotes(const char *input, int i);
-// int		check_sgl_quote(const char *input, int *i);
-// int		check_symbols(const char *input, int i);
+short	init_tokens(const char *input, t_shell *general, int i);
 int		init_op_token(const char *input, int i, t_token *token_list);
 void	add_token_list(t_token **list, char *content, t_ttype type);
 t_token	*create_token(char *content, t_ttype type);
 
 // ** additional
 void	printStrings(char **strings);
-int		new_check_quotes(const char *input, int i, t_token *tok_lst);
+int		new_check_quotes(const char *input, int i, t_shell *general);
+int		new_check_sgl_quote(const char *input, int i, t_shell *general);
 void	clean_list(t_token **list);
-int		new_check_sgl_quote(const char *input, int i, t_token *t_list);
 
+
+// **************
 // archive
+// char	*ft_substr(char const *s, unsigned int start, int len);
+ // void    *check_db_quote(char *str);
+// int		new_check_sgl_quote(const char *input, int i, t_token *t_list);
+// int		count_tokens(const char *s);
+// char	**split_tokens(const char *s);
+// int		check_quotes(const char *input, int i);
+// int		check_sgl_quote(const char *input, int *i);
+// int		check_symbols(const char *input, int i);
 // short	my_check_quotes(const char *input, t_token **token_list, int i, int flag);
 // int		check1(char c);
 // char		*init_some_tokens(int len, char **s);

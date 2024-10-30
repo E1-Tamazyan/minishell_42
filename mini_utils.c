@@ -27,14 +27,15 @@ void put_key(t_env *node, char	*src)
     j = 0;
     while (src[j] && src[j] != '=')
             j++;
-    node -> key = (char *)malloc(sizeof(char) * (j + 1));
+    node -> key = (char *)malloc(sizeof(char) * (j + 2));
     if (!node-> key)
         return ;
-    ft_strlcpy(node-> key, (const char *)src, (j + 1), 0);
+    ft_strlcpy(node-> key, (const char *)src, (j + 2), 0, '=');
     if (!node-> key)
         return ;
 }
 
+//the whole proble, is hereee
 void put_value(t_env *node, char *src)
 {
 	int	i;
@@ -44,15 +45,16 @@ void put_value(t_env *node, char *src)
 
 	i = 0;
 	counter = 0;
-	while (src[i] && src[i] != '\0')
+	while (src[i] && src[i] != '\n')
 	{
+		// here is the main problem
 		n = sgmnt_len((const char *)src, &pos);
 		if (n == -1)
 			return ;
-		node -> value = (char *)malloc(sizeof(char) * n);
-        if (!node -> value)
+		node -> value = (char *)malloc(sizeof(char) * (n + 1)); //check thisss
+		if (!node -> value)
 			return ;
-        ft_strlcpy(node -> value, src, n, pos);
+        ft_strlcpy(node -> value, src, n, pos, '\n');
         if (!node -> value)
             return ;
         i++;
@@ -82,12 +84,13 @@ int	sgmnt_len(const char *str, int *pos)
 	counter = 0;
 	if (!str)
 		return (-1);
-	while (str[i] != '=')
-		i++;
-	if (str[i] == '=') // only once
-		i++;
+	// while (str[i] != '=')
+	// 	i++;
+	// if (str[i] == '=') // only once
+	// 	i++;
+
 	*pos = i;
-	while (str[i] != '\0')
+	while (str[i] != '\n')
 	{
 		i++;
 		counter++;
@@ -125,4 +128,3 @@ void print_tokens(t_token *head)
         current = current->next;
     }
 } 
-
