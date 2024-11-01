@@ -18,7 +18,7 @@
 
 //5 ->6 functions already
 
-void put_key(t_env *node, char	*src)
+int	put_key(t_env *node, char	*src)
 {
 	int	i;
 	int	j;
@@ -27,38 +27,30 @@ void put_key(t_env *node, char	*src)
     j = 0;
     while (src[j] && src[j] != '=')
             j++;
-    node -> key = (char *)malloc(sizeof(char) * (j + 2));
+    node -> key = (char *)malloc(sizeof(char) * (j + 1));
     if (!node-> key)
-        return ;
-    ft_strlcpy(node-> key, (const char *)src, (j + 2), 0, '=');
+        return (-1);
+    ft_strlcpy(node-> key, (const char *)src, (j + 1), 0, '=');
     if (!node-> key)
-        return ;
+        return (-1);
+	return (j + 1);
 }
 
-//the whole proble, is hereee
-void put_value(t_env *node, char *src)
+//the whole problem, is hereee
+void put_value(t_env *node, char *src, int pos)
 {
-	int	i;
-	int	n;
-	int	pos;
-	int	counter;
+	int	len;
 
-	i = 0;
-	counter = 0;
-	while (src[i] && src[i] != '\n')
-	{
-		// here is the main problem
-		n = sgmnt_len((const char *)src, &pos);
-		if (n == -1)
-			return ;
-		node -> value = (char *)malloc(sizeof(char) * (n + 1)); //check thisss
-		if (!node -> value)
-			return ;
-        ft_strlcpy(node -> value, src, n, pos, '\n');
+	(void)node;
+	len = sgmnt_len((const char *)src, pos); // len-y talis e minchev '\n', '\n'-y neraryal
+	if (len == -1)
+		return ;
+	node -> value = (char *)malloc(sizeof(char) * (len)); //check thisss \n-i poxaren dnum enq \0
+	if (!node -> value)
+		return ;
+	ft_strlcpy(node -> value, src, len, pos, '\n');
         if (!node -> value)
             return ;
-        i++;
-	}
 }
 
 void    print_env(t_env *lst, int flag)
@@ -68,36 +60,25 @@ void    print_env(t_env *lst, int flag)
 	while (lst)
 	{
         if (flag == 1)
-            printf("declare -x %s\"%s\"\n", lst -> key, lst -> value);
+            printf("declare -x %s=\"%s\"\n", lst -> key, lst -> value); // i have removed \n from here (check later)
         else
-            printf("%s%s\n", lst -> key, lst -> value);
+            printf("%s=%s\n", lst -> key, lst -> value); // i have removed \n from here (check later)
 		lst = lst->next;
 	}
 }
 
-int	sgmnt_len(const char *str, int *pos)
+int	sgmnt_len(const char *str, int pos)
 {
-	int	i;
-	int	counter;
+	int counter;
 
-	i = 0;
 	counter = 0;
-	if (!str)
-		return (-1);
-	// while (str[i] != '=')
-	// 	i++;
-	// if (str[i] == '=') // only once
-	// 	i++;
-
-	*pos = i;
-	while (str[i] != '\n')
+	while(str[pos] && str[pos] != '\n')
 	{
-		i++;
+		pos++;
 		counter++;
 	}
 	return (counter);
 }
-
 
 void	clean_list(t_token **list)
 {
@@ -128,3 +109,64 @@ void print_tokens(t_token *head)
         current = current->next;
     }
 } 
+
+
+
+// **** ARCHIVE ****
+
+// void put_value(t_env *node, char *src)
+// {
+	// int	i;
+	// int	n;
+	// int	pos;
+	// int	counter;
+
+	// i = 0;
+	// counter = 0;
+		// printf("start_***\n");
+	// while(i < len && src[j])
+	// {
+	// 	printf("%c", src[j]);
+	// 	i++;
+	// 	j++;
+	// } // correct
+	// printf("\nend_***\n");
+	// while (src[i] && src[i] != '\n')
+	// {
+	// 	// here is the main problem
+	// 	n = sgmnt_len((const char *)src, &pos);
+	// 	printf("1_hii\n"); //doesn't reach here
+	// 	if (n == -1)
+	// 		return ;
+	// 	node -> value = (char *)malloc(sizeof(char) * (n + 1)); //check thisss
+	// 	if (!node -> value)
+	// 		return ;
+    //     ft_strlcpy(node -> value, src, n, pos, '\n');
+    //     if (!node -> value)
+    //         return ;
+    //     i++;
+	// }
+// }
+
+
+// int	sgmnt_len(const char *str, int *pos)
+// {
+// 	// int	i;
+// 	// int	counter;
+
+// 	// i = 0;
+// 	// counter = 0;
+// 	// if (!str)
+// 	// 	return (-1);
+// 	// // while (str[i] != '=')
+// 	// // 	i++;
+// 	// // if (str[i] == '=') // only once
+// 	// // 	i++;
+// 	// *pos = i;
+// 	// while (str[i] && str[i] != '\n')
+// 	// {
+// 	// 	i++;
+// 	// 	counter++;
+// 	// }
+// 	// return (counter);
+// }

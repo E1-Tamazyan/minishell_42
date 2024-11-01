@@ -6,7 +6,7 @@
 /*   By: etamazya <etamazya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:42:32 by etamazya          #+#    #+#             */
-/*   Updated: 2024/10/30 19:46:45 by etamazya         ###   ########.fr       */
+/*   Updated: 2024/11/01 14:20:38 by etamazya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ void    swap(char **a, char **b);
 
 // ***_____utils_____***
 void    print_env(t_env *lst, int flag);
-void	put_key(t_env *node, char	*src);
-void	put_value(t_env *node, char *src);
-int		sgmnt_len(const char *str, int *pos);
 void	print_tokens(t_token *head);
+int		put_key(t_env *node, char	*src);
+void	put_value(t_env *node, char *src, int pos);
+int		sgmnt_len(const char *str, int pos);
 void	my_list_iter(t_token *head);
 
 // ***_____lib utils_____***
@@ -99,6 +99,7 @@ void	printStrings(char **strings);
 int		new_check_quotes(const char *input, int i, t_shell *general);
 int		new_check_sgl_quote(const char *input, int i, t_shell *general);
 void	clean_list(t_token **list);
+void	clean_env_list(t_env **list);
 
 
 // **************

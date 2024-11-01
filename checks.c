@@ -6,7 +6,7 @@
 /*   By: etamazya <etamazya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 10:41:54 by etamazya          #+#    #+#             */
-/*   Updated: 2024/10/30 17:17:03 by etamazya         ###   ########.fr       */
+/*   Updated: 2024/11/01 16:08:06 by etamazya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,43 @@ int check_input(char **env, t_shell *general)
 
 	tmp = general->tok_lst;
 	(void)sorted;
+	general->env_lst = NULL;
 	while (tmp)
 	{
-		if (ft_strcmp((const char *)general->tok_lst->context, (const char *)"env") == 0)
+		if (ft_strcmp((const char *)tmp->context, (const char *)"env") == 0)
 		{
 			general -> env_lst = init_env_nodes(env);
 			print_env(general -> env_lst, 0);
 			return (0);
 		}
+	    else if (ft_strcmp((const char *)tmp->context, (const char *)"export") == 0)
+    	{
+	        sorted = sort_env(env);
+	        general -> env_lst = init_env_nodes(sorted);
+	        print_env(general -> env_lst, 1);
+	        return (0);
+	    }
 		tmp = tmp->next;
 	}
-    return (0);
+	if (general->env_lst)
+		clean_env_list(&general->env_lst);		
+    return (1);
+}
+
+void	clean_env_list(t_env **list)
+{
+	t_env	*temp;
+	t_env	*next;
+
+	temp = *list;
+	while (temp != NULL)
+	{
+		next = temp->next;
+		free(temp);
+		temp = next;
+	}
+	*list = NULL;
+	
 }
 
 int	new_check_quotes(const char *input, int i, t_shell *general)
