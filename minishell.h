@@ -6,7 +6,7 @@
 /*   By: etamazya <etamazya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:42:32 by etamazya          #+#    #+#             */
-/*   Updated: 2024/11/11 15:54:49 by etamazya         ###   ########.fr       */
+/*   Updated: 2024/11/11 16:19:02 by etamazya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ typedef enum s_ttype
 	T_REDIR_APPEND = 4,		// '>>'
 	T_REDIR_HEREDOC = 5,	// '<<'
 	T_ENV_VAR = 6,			// environment variables
-	T_SGL_QUOTES = 7,			// ''
-	T_DBL_QUOTES = 8,			// ""
+	T_SGL_QUOTES = 7,		// ''
+	T_DBL_QUOTES = 8,		// ""
 }				t_ttype;
 
 typedef struct s_token
@@ -56,9 +56,6 @@ typedef struct s_cmd_token
 	char	*content;
 	t_ttype	*type;
 	int		flag;
-	
-	
-	
 }			    t_cmd_token;
 
 typedef struct s_shell
@@ -74,7 +71,7 @@ typedef struct s_shell
 
 // ***_____main_functions_____***
 int		init_input(char *input, t_shell *gen, char **env);
-int		check_input(char **env, t_shell *general);
+int		check_cmd(char **env, t_shell *general);
 t_env	*init_env_nodes(char **env);
 
 // ***____env_sorting_____***
@@ -92,6 +89,8 @@ int		sgmnt_len(const char *str, int pos);
 void	my_list_iter(t_token *head);
 int		check_print_dollar(const char *context, t_env *env_lst, int i);
 int		create_env(char **env, t_shell *general);
+t_token	*optimize_tokens(&general->tok_lst);
+
 
 // ***_____lib utils_____***
 void	ft_strlcpy(char *dest, const char *src, int size, int pos, char limiter);

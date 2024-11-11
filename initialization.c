@@ -6,28 +6,19 @@
 /*   By: etamazya <etamazya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:38:08 by algaboya          #+#    #+#             */
-/*   Updated: 2024/11/11 16:00:14 by etamazya         ###   ########.fr       */
+/*   Updated: 2024/11/11 16:27:21 by etamazya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // only intiational functions
-// 4 functions already
+// 5 functions already
 
 // ***************************
 // ****** WARNING FULL *******
 // ***************************
 
-int create_env(char **env, t_shell *general)
-{
-	char    **sorted;
-
-	general -> env_lst = init_env_nodes(env);
-	sorted = sort_env(env);
-	general -> sorted_env_lst = init_env_nodes(sorted);
-	return (0);
-}
 
 int	init_input(char *input, t_shell *general, char **env)
 {
@@ -40,9 +31,10 @@ int	init_input(char *input, t_shell *general, char **env)
 		add_history(input);
 		if (!input)
 			return (1);
+		// init_general(general) // give every value to it's corresponding one
 		general -> tok_lst = NULL;
 		init_tokens((const char *)input, general, 0);
-		if (check_input(env, general)) // if 1 error
+		if (check_cmd(env, general)) // if 1 error
 			return (free(input), clean_list(&general->tok_lst), 1);
 		clean_list(&general->tok_lst);
 		free(input);
@@ -105,8 +97,23 @@ short	init_tokens(const char *input, t_shell *general, int i)
 		i++;
 	}
 	print_tokens(general->tok_lst);
+	general->tok_lst = optimize_tokens(general->tok_lst);
 	return (0);
 }
+
+t_token	*optimize_tokens(t_token *tok_lst)
+{
+	int	type;
+	t_token	*tmp;
+
+	tmp = tok_lst;
+	while (tmp)
+	{
+		tmp = tmp -> next;
+	}
+	return (tok_lst); // still this is okayd
+}
+
 
 int	init_op_token(const char *input, int i, t_token *token_list)
 {
@@ -132,6 +139,16 @@ int	init_op_token(const char *input, int i, t_token *token_list)
 			add_token_list(&token_list, my_substr(input, --i, 1), 2);
 	}
 	return (i);
+}
+
+int create_env(char **env, t_shell *general)
+{
+	char    **sorted;
+
+	general -> env_lst = init_env_nodes(env);
+	sorted = sort_env(env);
+	general -> sorted_env_lst = init_env_nodes(sorted);
+	return (0);
 }
 
 // *******************
