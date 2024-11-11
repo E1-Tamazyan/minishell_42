@@ -60,9 +60,9 @@ void    print_env(t_env *lst, int flag)
 	while (lst)
 	{
         if (flag == 1)
-            printf("declare -x %s=\"%s\"\n", lst -> key, lst -> value); // i have removed \n from here (check later)
+            printf("declare -x %s=\"%s\"\n", lst -> key, lst -> value);
         else
-            printf("%s=%s\n", lst -> key, lst -> value); // i have removed \n from here (check later)
+            printf("%s=%s\n", lst -> key, lst -> value);
 		lst = lst->next;
 	}
 }

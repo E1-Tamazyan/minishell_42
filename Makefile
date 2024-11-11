@@ -22,7 +22,7 @@ SRCS_NAME =	main.c mini_utils.c \
 			lib_utils.c lib_utils_1.c \
 			sort_env.c initialization.c \
 			checks.c token_utils.c \
-			print_fts.c \
+			print_fts.c mini_utils_1.c\
 
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))
 OBJS_NAME = $(SRCS_NAME:.c=.o)

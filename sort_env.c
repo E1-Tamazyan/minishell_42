@@ -6,7 +6,7 @@
 /*   By: etamazya <etamazya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 18:24:16 by etamazya          #+#    #+#             */
-/*   Updated: 2024/10/06 16:15:36 by etamazya         ###   ########.fr       */
+/*   Updated: 2024/11/06 14:23:32 by etamazya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,70 @@ void quick_sort(char **arr, int low, int high)
     }
 }
 
-char    **sort_env(char **env)
+char **sort_env(char **env)
 {
     int     i;
-    
-    i = 0;
-    while (env[i] && env[i] != '\0')
-        i++;
-    quick_sort(env, 0, i - 1);
+    int     j;
+    char    **env_clone;
 
-    return (env);
+    i = 0;
+    while (env[i] != NULL)
+        i++;
+    env_clone = (char **)malloc((i + 1) * sizeof(char *));
+    if (!env_clone)
+        return NULL;
+    j = 0;
+    while (j < i)
+    {
+        env_clone[j] = ft_strdup(env[j]);
+        if (!env_clone[j])
+        {
+            while (j > 0)
+                free(env_clone[--j]);
+            free(env_clone);
+            return (NULL);
+        }
+        j++;
+    }
+    env_clone[i] = (NULL);
+    quick_sort(env_clone, 0, i - 1);
+    return (env_clone);
 }
+
+// if will be need for the previous (sort_env) function to make clone for env param
+// char **clone_env(char **env)
+// {
+//     int i;
+//     int j;
+//      
+//     i = 0;
+//     j = 0;
+//     while (env[i])
+//         i++;
+//     char **clone = malloc((i + 1) * sizeof(char *));
+//     if (!clone)
+//         return NULL;
+//     while (j < i)
+//     {
+//         clone[j] = strdup(env[j]);
+//         if (!clone[j])
+//         {
+//             while (j > 0)
+//                 free(clone[--j]);
+//             free(clone);
+//             return NULL;
+//         }
+//      j++;
+//     }
+//     clone[i] = NULL;
+//     return clone;
+// }
+
+// char **sort_env(char **env)
+// {
+//     char **clone = clone_env(env);
+//     if (!clone)
+//         return NULL;
+//     quick_sort(clone, 0, i - 1);
+//     return (clone);
+// }

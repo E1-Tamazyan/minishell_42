@@ -6,7 +6,7 @@
 /*   By: etamazya <etamazya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:38:08 by algaboya          #+#    #+#             */
-/*   Updated: 2024/11/01 16:06:10 by etamazya         ###   ########.fr       */
+/*   Updated: 2024/11/11 16:00:14 by etamazya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,24 @@
 // ****** WARNING FULL *******
 // ***************************
 
+int create_env(char **env, t_shell *general)
+{
+	char    **sorted;
+
+	general -> env_lst = init_env_nodes(env);
+	sorted = sort_env(env);
+	general -> sorted_env_lst = init_env_nodes(sorted);
+	return (0);
+}
+
 int	init_input(char *input, t_shell *general, char **env)
 {
 	input = "";
-	(void)env;
 	while (input)
 	{
-		// input = readline("\033[105;78;15;201m minisHell:\033[0:000m "); // magenta = [38;5;201m | cyan [38;5;51m
-		input = readline("\033[38;5;201m minisHell:\033[0:000m "); // magenta = [38;5;201m | cyan [38;5;51m
+		create_env(env, general);
+		input = readline("\033[105;78;15;201m minisHell:\033[0:000m "); // magenta = [38;5;201m | cyan [38;5;51m
+		// input = readline("\033[38;5;201m minisHell:\033[0:000m "); // magenta = [38;5;201m | cyan [38;5;51m
 		add_history(input);
 		if (!input)
 			return (1);
@@ -65,8 +75,6 @@ t_env *init_env_nodes(char **env)
             ft_lstadd_back(&tmp, new_node);
         i++;
     }
-	// printf("***env[i] = %s\n", env[i]);
-	// printf("%s=%s\n", new_node->key, new_node->value);
     return (list_env);
 }
 
@@ -87,7 +95,7 @@ short	init_tokens(const char *input, t_shell *general, int i)
 		{ 
 			start = i;
 			while (i >= 0 && input[i] && input[i] != '|' && input[i] != '>' && input[i] != '<'
-				&& input[i] != ' ' && input[i] != 34 && input[i] != 39 && input[i] != '\0')
+				&& input[i] != ' ' && input[i] != 34 && input[i] != 39)
 				i++;
 			add_token_list(&general->tok_lst, my_substr(input, start, i - start), 0);
 			i--;
@@ -105,7 +113,12 @@ int	init_op_token(const char *input, int i, t_token *token_list)
 	if (input[i] && input[i] == '|')
 		add_token_list(&token_list, my_substr(input, i, 1), 1);
 	else if (input[i] && input[i] == ' ')
+	{
 		add_token_list(&token_list, my_substr(input, i, 1), 0);
+		while (input[i] == ' ')
+			i++;
+		i -= 1;
+	}
 	else if (input[i] && input[i] == '>')
 		if (input[i] && input[++i] && input[i] && input[i] == '>')
 			return (add_token_list(&token_list, my_substr(input, i - 1, 2), 4), i);
