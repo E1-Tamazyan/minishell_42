@@ -23,6 +23,7 @@
         "__hash_table": "cpp",
         "__tuple": "cpp",
         "array": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "minishell.h": "c"
     }
 }

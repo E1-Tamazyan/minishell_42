@@ -6,7 +6,7 @@
 /*   By: etamazya <etamazya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:45:48 by etamazya          #+#    #+#             */
-/*   Updated: 2024/11/01 15:59:38 by etamazya         ###   ########.fr       */
+/*   Updated: 2024/11/19 20:00:20 by etamazya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ t_env	*ft_lstnew(char *context) // contains blabla = blabla=bla
 	node = malloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
-	// printf("context = %s\n", context);
-	pos = put_key(node, context);
+	pos = put_key(node, context);	
 	put_value(node, context, pos);
 	node -> next = NULL;
 	return (node);
@@ -44,7 +43,6 @@ void	ft_lstadd_back(t_env **lst, t_env *node)
 		return ;
 	}
 	current = *lst;
-	// printf("mine_env %s%s\n", node->key, node->value);
 	while (current -> next)
 		current = current -> next;
 	current->next = node;
@@ -55,16 +53,13 @@ void	ft_strlcpy(char *dest, const char *src, int size, int pos, char limiter)
 	int	i;
 
 	i = 0;
-	while (i < size && src[pos] != limiter)
+	while (i < size && src[pos] && src[pos] != limiter)
 	{
 		dest[i] = src[pos];
 		i++;
 		pos++;
 	}
-	// if (limiter)
-	// 	dest[i++] = limiter;
-	if (i <= size)
-		dest[i] = '\0';
+	dest[i] = '\0';
 }
 
 int	ft_strcmp(const char *s1, const char *s2)

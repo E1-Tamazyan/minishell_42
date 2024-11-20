@@ -6,13 +6,16 @@
 /*   By: etamazya <etamazya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 10:41:54 by etamazya          #+#    #+#             */
-/*   Updated: 2024/11/11 16:06:13 by etamazya         ###   ########.fr       */
+/*   Updated: 2024/11/20 09:59:00 by etamazya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// 3 function
+// ************************
+// *** CAUTION *** FULL ***
+// ************************
+// 4 function
 
 int check_cmd(char **env, t_shell *general)
 {
@@ -40,7 +43,6 @@ int check_cmd(char **env, t_shell *general)
 		clean_env_list(&general->env_lst);		
     return (0);
 }
-// check later the error that could ocurr here
 
 void	clean_env_list(t_env **list)
 {

@@ -6,12 +6,15 @@
 /*   By: etamazya <etamazya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:18:12 by etamazya          #+#    #+#             */
-/*   Updated: 2024/10/30 13:29:50 by etamazya         ###   ########.fr       */
+/*   Updated: 2024/11/18 11:57:52 by etamazya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// ************************
+// *** WARNING *** FULL ***
+// ************************
 // **** 4 functions ****
 
 int	check_sgl_quote(const char *input, int *i)

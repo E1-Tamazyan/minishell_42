@@ -6,7 +6,7 @@
 /*   By: etamazya <etamazya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:42:32 by etamazya          #+#    #+#             */
-/*   Updated: 2024/11/11 16:19:02 by etamazya         ###   ########.fr       */
+/*   Updated: 2024/11/18 13:52:53 by etamazya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,10 @@ void	print_tokens(t_token *head);
 int		put_key(t_env *node, char	*src);
 void	put_value(t_env *node, char *src, int pos);
 int		sgmnt_len(const char *str, int pos);
-void	my_list_iter(t_token *head);
+// void	my_list_iter(t_token *head);
 int		check_print_dollar(const char *context, t_env *env_lst, int i);
 int		create_env(char **env, t_shell *general);
-t_token	*optimize_tokens(&general->tok_lst);
+t_token	*optimize_tokens(t_token *tok_lst);
 
 
 // ***_____lib utils_____***
@@ -101,6 +101,8 @@ int		ft_strlen(const char *str);
 char	*my_substr(const char *s, unsigned int start, int len);
 int		ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s1);
+char	*ft_strjoin(char *s1, char *s2);
+
 
 // ***_____tokenization_____***
 short	init_tokens(const char *input, t_shell *general, int i);
@@ -114,7 +116,7 @@ int		new_check_quotes(const char *input, int i, t_shell *general);
 int		new_check_sgl_quote(const char *input, int i, t_shell *general);
 void	clean_list(t_token **list);
 void	clean_env_list(t_env **list);
-
+short	del_t_node(t_token *lst);
 
 // **************
 // archive
