@@ -37,7 +37,7 @@ $(OBJS_DIR)%.o: %.c $(HEADERS) Makefile
 	@mkdir -p $(OBJS_DIR)
 	@mkdir -p $(OBJS_DIR)/init_some_tokens
 	@mkdir -p $(OBJS_DIR)/utils
-	$(CC) $(CFLAGS) -c $< -o $@ 
+	@$(CC) $(CFLAGS) -c $< -o $@ 
 
 $(LIBS_DIR)/$(READLINE):
 	./$(LIBS_DIR)/config_readline readline
