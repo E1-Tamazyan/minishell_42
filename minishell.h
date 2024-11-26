@@ -70,7 +70,7 @@ typedef struct s_cmd_lst
 // 	pid_t pid;
 // 	// t_descriptor *descriptors;
 
-} t_cmd_lst;
+}			t_cmd_lst;
 
 // ************************
 // ************************
@@ -194,15 +194,31 @@ typedef struct s_cmd_lst
 // ************************
 // ************************
 
+// ### NOW WORKING ###
+
+typedef struct s_dollar
+{
+	char *u_key;
+	char *value;
+	int	dollar_sign; // 1 = sgl_quote, 2 = dbl quote
+	struct s_dollar	*next;
+
+}	t_dollar;
+
 typedef struct s_shell
 {
-	t_token *tok_lst;
-	t_env *env_lst;
-	t_env *sorted_env_lst; // for export, to not change the original env_lst above
-	int shlvl;			   // check
-						   // char		pwd; // check
-						   // char		*oldpwd; // check
+	t_token		*tok_lst;
+	t_env		*env_lst;
+	t_cmd_lst	*cmd_list;
+	t_dollar	*doll_lst;
+	t_env		*sorted_env_lst; // for export, to not change the original env_lst above
+	int			shlvl;		     // check
+	// char		pwd; // check
+	// char		*oldpwd; // check
 } t_shell;
+
+// ### NOW WORKING ###
+
 //**************************************
 
 // ***_____main_functions_____***
@@ -225,7 +241,7 @@ int sgmnt_len(const char *str, int pos);
 // void	my_list_iter(t_token *head);
 int check_print_dollar(const char *context, t_env *env_lst, int i);
 int create_env(char **env, t_shell *general);
-t_token *exchange_to_commands(t_token *tok_lst);
+t_cmd_lst	*exchange_to_commands(t_token *tok_lst, t_shell *general);
 
 // ***_____lib utils_____***
 void ft_strlcpy(char *dest, const char *src, int size, int pos, char limiter);
@@ -239,19 +255,21 @@ char *ft_strdup(const char *s1);
 char *ft_strjoin(char *s1, char *s2);
 
 // ***_____tokenization_____***
-short init_tokens(const char *input, t_shell *general, int i);
-int init_op_token(const char *input, int i, t_token **token_list);
-void add_token_list(t_token **list, char *content, t_ttype type);
-t_token *create_token(char *content, t_ttype type);
+short	init_tokens(const char *input, t_shell *general, int i);
+int		init_op_token(const char *input, int i, t_token **token_list);
+void	add_token_list(t_token **list, char *content, t_ttype type);
+t_token	*create_token(char *content, t_ttype type);
 
 // ** additional
-void printStrings(char **strings);
-void clean_list(t_token **list);
-void clean_env_list(t_env **list);
-short del_t_node(t_token *lst);
-int check_cut_quotes(const char *input, int start, int i, t_shell *general);
+void	printStrings(char **strings);
+void	clean_list(t_token **list);
+void	clean_env_list(t_env **list);
+short	del_t_node(t_token *lst);
+int		check_cut_quotes(const char *input, int start, int i, t_shell *general);
 
 // **************
+int	check_dollar_sign(char *input, int i, t_shell *general);
+
 // archive
 char *ft_substr(char const *s, unsigned int start, int len);
 

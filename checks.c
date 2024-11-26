@@ -15,7 +15,7 @@
 // ************************
 // *** CAUTION *** FULL ***
 // ************************
-// 4 function
+// 2 function
 
 int check_cmd(char **env, t_shell *general)
 {
@@ -26,6 +26,7 @@ int check_cmd(char **env, t_shell *general)
 	(void)env;
 	while (tmp)
 	{
+		//this is not gonna work here the dollar sign should have been come alreade opened up;
 		index = ft_strchr((const char *)tmp->context, '$');
 		if (index != -1)
 		{	
@@ -61,8 +62,8 @@ int check_cut_quotes(const char *input, int start, int i, t_shell *general)
                 add_token_list(&general->tok_lst, my_substr(input, start, i - start), 7);
 			if (input[i] && (input[i] == '|' || input[i] == '>'
 			|| input[i] == '<' || input[i] == ' '))
-				i = init_op_token(input, i, &general->tok_lst);
-            return (i + 1);
+				return (init_op_token(input, i, &general->tok_lst));
+            // return (i);
         }
         i++;
     }
@@ -70,8 +71,17 @@ int check_cut_quotes(const char *input, int start, int i, t_shell *general)
         return(printf("Error: Unclosed quotes found in input.\n"), -1);
     if (i > start)
         add_token_list(&general->tok_lst, my_substr(input, start, i - start), 7);
-    return i;
+    return (i);
 }
 
+int check_dollar_sign(char *input, int i, t_shell *general)
+{
+	(void)input;
+	(void)i;
+	(void)general;
+
+	printf("hello\n");
+	return (0);
+}
 
 // *********** ARCHIVE ***********
