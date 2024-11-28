@@ -63,7 +63,6 @@ int check_cut_quotes(const char *input, int start, int i, t_shell *general)
 			if (input[i] && (input[i] == '|' || input[i] == '>'
 			|| input[i] == '<' || input[i] == ' '))
 				return (init_op_token(input, i, &general->tok_lst));
-            // return (i);
         }
         i++;
     }
