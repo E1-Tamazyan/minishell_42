@@ -142,8 +142,11 @@ int	init_op_token(const char *input, int i, t_token **token_list)
 {
 	if (!input || !token_list)
 		return i;
-	if (input[i] && input[i] == '|')
+	if (input[i] && input[i] == '|') // not done ❗️
 	{
+		if (!input[i + 1] || (!input[i + 2] && input[i + 1] != '|')) // change this part later
+			return (printf("minisHell: syntax error near unexpected token `newline'\n"), -1);
+		// if (input[i] == '|') // ❗️❗️❗️ try to handle  bash-3.2$ | ls => bash: syntax error near unexpected token `|'
 		if (input[i + 1] == '|')
 			return (printf("minisHell: syntax error near unexpected token `||'\n"), -1);
 		add_token_list(token_list, my_substr(input, i, 1), 1);
@@ -155,6 +158,9 @@ int	init_op_token(const char *input, int i, t_token **token_list)
 			return (printf("minisHell: syntax error near unexpected token `newline'\n"), -1);
 		if (input[i + 1] && input[i + 1] == '>') // DONEEE
 		{
+			// try with this one
+			// if ((input[i + 2] == '>' && input[i + 3] == '>') || (input[i + 2] == '<' && (input[i + 3] == '<' || input[i + 3] == '|')))
+			// make this line shorter ⬇️ exchanging with the above one
 			if ((input[i + 2] && input[i + 2] == '>' && (input[i + 3] && input[i + 3] == '>')) || ((input[i + 2] && input[i + 2] == '<') && (input[i + 3] && (input[i + 3] == '<' || input[i + 3] == '|'))))
 				return (printf("minisHell: syntax error near unexpected token `%c%c'\n", input[i + 2], input[i + 3]), -1);
 			if (input[i + 2] && (input[i + 2] == '>' || input[i + 2] == '<' || input[i + 2] == '|'))
@@ -180,26 +186,36 @@ int	init_op_token(const char *input, int i, t_token **token_list)
 		}
 		add_token_list(token_list, my_substr(input, i, 1), 3);
 	}
-	else if (input[i] && input[i] == '<') // next steeepp // make this part to work exact the same way as bash
+	else if (input[i] && input[i] == '<') // not done yet                                 <> <*|
 	{
-// 		bash-3.2$ <<<<
-// 		bash: syntax error near unexpected token `<'
-// 		bash-3.2$ <<<
-// 		bash: syntax error near unexpected token `newline'
-// 		bash-3.2$ 
-		if (!input[i + 1] || !input[i + 2] || (input[i + 1] && (input[i + 1] == '>'))) //  || (input[i + 3] && input[i + 3] == '<')
-			return (printf("minisHell: syntax error near unexpected token `newline'\n"), -1);
+		// 		if (!input[i + 1] || 
+		//     (!input[i + 2] && input[i + 1] != '|') || 
+		//     (((input[i + 1] == '>' || input[i + 1] == '<') && input[i + 2] != '|') && input[i + 2] == '<' && !input[i + 3]))
+		// {
+		//     return (printf("minisHell: syntax error near unexpected token `newline'\n"), -1);
+		// }
+
+		// if (!input[i + 1] || (!input[i + 2] && input[i + 1] != '|') || (((input[i + 1] == '>' || input[i + 1] == '<') && input[i + 2] != '|') && input[i + 2] == '<' && !input[i + 3]))
+		// 	return (printf("minisHell: syntax error near unexpected token `newline'\n"), -1);
 		if (input[i + 1] && input[i + 1] == '<')
 		{
-			if ((input[i + 2] && input[i + 2] == '>') && ((input[i + 3] && input[i + 3] == '>') || (input[i + 3] && input[i + 3] == '|')))
+			if ((input[i + 2] && input[i + 2] == '>') && (input[i + 3] && (input[i + 3] == '>' ||  input[i + 3] == '|')))
 				return (printf("minisHell: syntax error near unexpected token `%c%c'\n", input[i + 2], input[i + 3]), -1);
-			if (input[i + 2] && (input[i + 2] == '<' || input[i + 2] == '>' || input[i + 2] == '|'))
+			if (input[i + 1] == '|' || (input[i + 2] && (input[i + 2] == '<' || input[i + 2] == '>' || input[i + 2] == '|')))
 				return (printf("minisHell: syntax error near unexpected token `%c'\n", input[i + 2]), -1);
+			printf("%d, i = %c\n", i, input[i]);
 			add_token_list(token_list, my_substr(input, i, 2), 5);
-			i++;
+		// 	i++;
+		// 	if (input[i])
+		// 		printf("1_%d, i = %c\n", i, input[i]);
 		}
-			add_token_list(token_list, my_substr(input, i, 1), 2);
-    }
+		else if (input[i + 1] == '>')
+			printf(">");
+		else if (input[i + 1] == '|')
+				return (printf("minisHell: syntax error near unexpected token `%c'\n", input[i + 1]), -1);
+		add_token_list(token_list, my_substr(input, i, 1), 2);
+		i++;
+	}
 	return (i);
 }
 
