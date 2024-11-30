@@ -20,10 +20,10 @@
 
 int	put_key(t_env *node, char	*src)
 {
-	int	i;
+	// int	i;
 	int	j;
 
-	i = 0;
+	// i = 0;
     j = 0;
     while (src[j] && src[j] != '=')
             j++;
@@ -53,8 +53,8 @@ void put_value(t_env *node, char *src, int pos)
 
 void    print_env(t_env *lst, int flag)
 {
-    if (!lst)
-        return ;
+    // if (!lst)
+    //     return ;
 	while (lst)
 	{
 		if(lst -> key && lst -> value)

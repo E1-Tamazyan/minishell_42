@@ -166,7 +166,7 @@ int	init_op_token(const char *input, int i, t_token **token_list)
 			if (input[i + 2] && (input[i + 2] == '>' || input[i + 2] == '<' || input[i + 2] == '|'))
 				return (printf("minisHell: syntax error near unexpected token `%c'\n", input[i + 2]), -1);
 			add_token_list(token_list, my_substr(input, i, 2), 4);
-			i += 2;
+			i += 2;          // 
 		}
 		else if (input[i + 1] && (input[i + 1] == '<')) // DONE
 		{

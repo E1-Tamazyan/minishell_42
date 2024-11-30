@@ -36,8 +36,8 @@ int check_cmd(char **env, t_shell *general)
 		}
 		if (ft_strcmp((const char *)tmp->context, (const char *)"env") == 0)
 			return (print_env(general -> env_lst, 0), 0);			
-	    else if (ft_strcmp((const char *)tmp->context, (const char *)"export") == 0)
-	        return (print_env(general -> sorted_env_lst, 1), 0);
+	    // else if (ft_strcmp((const char *)tmp->context, (const char *)"export") == 0)
+	        // return (print_env(general -> sorted_env_lst, 1), 0);
 		tmp = tmp->next;
 	}
 	if (general->env_lst)

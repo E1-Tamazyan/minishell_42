@@ -1,3 +1,9 @@
+DEFAULT =	\033[0m
+GREEN   =	\033[32m
+ORANGE = \033[38;5;214m
+YELLOW = \033[38m;5;226m
+DIM = \033[2m
+
 CC = cc
 
 NAME = minishell
@@ -30,26 +36,29 @@ OBJS_NAME = $(SRCS_NAME:.c=.o)
 all: $(LIBS_DIR)/$(READLINE) $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@ -l$(READLINE) -L$(READLINE_LIB_PATH)
+	$(CC) $(CFLAGS) $^ -o $@ -l$(READLINE) -L$(READLINE_LIB_PATH) -lncurses
 
 # $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADERS) Makefile
 $(OBJS_DIR)%.o: %.c $(HEADERS) Makefile
 	@mkdir -p $(OBJS_DIR)
-	@mkdir -p $(OBJS_DIR)/init_some_tokens
-	@mkdir -p $(OBJS_DIR)/utils
 	@$(CC) $(CFLAGS) -c $< -o $@ 
+	@echo "${GREEN}Executable file is ready.${DEFAULT}"
 
 $(LIBS_DIR)/$(READLINE):
 	./$(LIBS_DIR)/config_readline readline
 
 clean:
+	@echo "${DIM}Cleaning...${DEFAULT}"
 	@$(RM) $(OBJS)
+	@echo "${ORANGE}Done$(DEFAULT):)"
 
 fclean: clean
+	@echo "${DIM}Cleaning...${DEFAULT}"
 	@$(RM) $(NAME)
 	rm -rf $(LIBS_DIR)/$(READLINE)
 	rm -rf $(OBJS_DIR)
 	make clean -C $(LIBS_DIR)/readline-8.2
+	@echo "${ORANGE}Done${DEFAULT}:)"
 
 re: fclean all
 
