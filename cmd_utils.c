@@ -14,28 +14,33 @@
 
 int	exchange_to_cmd(t_shell *general)
 {
-    t_cmd_lst *tmp;
-    t_cmd_lst *head;
+    t_token     *tmp_tok;
+    t_cmd_lst   *tmp;
+    t_cmd_lst   *head;
 
     tmp = general->cmd_list;
     head = general->cmd_list;
     while (general->tok_lst)
     {
-        counter_args(general);
-        general->cmd_list->args = (char **)malloc(sizeof(char *) * (general->arg_count + 1))
-        
-        tok_tmp = tok_tmp -> next;
+        tmp_tok = general->tok_lst;
+        general-> args_count = counter_args(general);
+        // if (general-> args_count < 0) // -2 error
+        printf("dddd = %d, %s\n", general->args_count, general->tok_lst->context);
+        // general->cmd_list->args = (char **)malloc(sizeof(char *) * (general->args_count + 1));
+        // ete tesav nshana kanchum a funckia ov cmd sarqi, sarqeluc heto pointery araj a talis
     }
+    return (0);
 }
 
-void counter_args(t_tshell *general)
+int counter_args(t_shell *general)
 {
     general->args_count = 0;
-    while(general->tok_lst)
+    while (general->tok_lst)
     {
-        if(general->tok_lst->type != 0)
-            return ;
-        general-> arg_count++;
-        general->tok_lst = general->tok_lst->next
+        if (general->tok_lst->type != 0)
+            return (general-> args_count);
+        general-> args_count++;
+        general->tok_lst = general->tok_lst->next;
     }
+    return (0);
 }

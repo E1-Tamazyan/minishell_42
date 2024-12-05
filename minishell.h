@@ -56,9 +56,14 @@ typedef struct s_cmd_lst
 {
 	char	*cmd;
 	char	**args;
-	int		std_in;
-	int		std_out;
-// 	// t_descriptor *descriptors;`-
+	int		std_in; // fd
+	int		std_out; // fd
+	//Gaya's vers.
+	// char	*pipe;
+	// char	*redir_in;
+	// char	*redir_out;
+	// char	*append_in;
+	// char	*append_out;
 }			t_cmd_lst;
 
 typedef struct s_dollar
@@ -78,7 +83,7 @@ typedef struct s_shell
 	t_dollar	*doll_lst;
 	t_env		*sorted_env_lst; // for export, to not change the original env_lst above
 	int			shlvl;		     // check
-	int			arg_count;
+	int			args_count;
 	// char		pwd; // check
 	// char		*oldpwd; // check
 	
@@ -135,9 +140,9 @@ short	del_t_node(t_token *lst);
 int		check_cut_quotes(const char *input, int start, int i, t_shell *general);
 
 // **************
-int		check_dollar_sign(char *input, int i, t_shell *general);
-int		exchange_to_cmd(t_shell *general);
-void	counter_args(t_tshell *general);
+int	check_dollar_sign(char *input, int i, t_shell *general);
+int	exchange_to_cmd(t_shell *general);
+int	counter_args(t_shell *general);
 
 // archive
 char *ft_substr(char const *s, unsigned int start, int len);

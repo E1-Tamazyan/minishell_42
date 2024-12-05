@@ -30,7 +30,7 @@ SRCS_NAME =	main.c mini_utils.c \
 			lib_utils.c lib_utils_1.c lib_utils_2.c \
 			sort_env.c initialization.c \
 			checks.c token_utils.c \
-			print_fts.c mini_utils_1.c\
+			print_fts.c mini_utils_1.c cmd_utils.c\
 
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))
 OBJS_NAME = $(SRCS_NAME:.c=.o)
@@ -46,7 +46,7 @@ $(NAME): $(OBJS)
 $(OBJS_DIR)%.o: %.c $(HEADERS) Makefile
 	@mkdir -p $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@ > /dev/null
-	@echo "${GREEN}Executable file is getting ready.${DEFAULT}"
+	@echo "${BLUE}Executable file is getting ready.${DEFAULT}"
 
 $(LIBS_DIR)/$(READLINE):
 	@./$(LIBS_DIR)/config_readline readline > /dev/null
