@@ -3,6 +3,8 @@ GREEN   =	\033[32m
 ORANGE = \033[38;5;214m
 YELLOW = \033[38m;5;226m
 DIM = \033[2m
+BLUE    =       \033[34m
+RED = \033[38;5;196m
 
 CC = cc
 
@@ -33,19 +35,22 @@ SRCS_NAME =	main.c mini_utils.c \
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))
 OBJS_NAME = $(SRCS_NAME:.c=.o)
 
+
+
 all: $(LIBS_DIR)/$(READLINE) $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@ -l$(READLINE) -L$(READLINE_LIB_PATH) -lncurses
+	@echo "${BLUE}Compiling $<.${RESET}"
+	@$(CC) $(CFLAGS) $^ -o $@ -l$(READLINE) -L$(READLINE_LIB_PATH) -lncurses > /dev/null
 
-# $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADERS) Makefile
 $(OBJS_DIR)%.o: %.c $(HEADERS) Makefile
 	@mkdir -p $(OBJS_DIR)
-	@$(CC) $(CFLAGS) -c $< -o $@ 
-	@echo "${GREEN}Executable file is ready.${DEFAULT}"
+	@$(CC) $(CFLAGS) -c $< -o $@ > /dev/null
+	@echo "${GREEN}Executable file is getting ready.${DEFAULT}"
 
 $(LIBS_DIR)/$(READLINE):
-	./$(LIBS_DIR)/config_readline readline
+	@./$(LIBS_DIR)/config_readline readline > /dev/null
+
 
 clean:
 	@echo "${DIM}Cleaning...${DEFAULT}"
@@ -53,12 +58,10 @@ clean:
 	@echo "${ORANGE}Done$(DEFAULT):)"
 
 fclean: clean
-	@echo "${DIM}Cleaning...${DEFAULT}"
 	@$(RM) $(NAME)
-	rm -rf $(LIBS_DIR)/$(READLINE)
-	rm -rf $(OBJS_DIR)
-	make clean -C $(LIBS_DIR)/readline-8.2
-	@echo "${ORANGE}Done${DEFAULT}:)"
+	@rm -rf $(LIBS_DIR)/$(READLINE)
+	@rm -rf $(OBJS_DIR)
+	@make -s clean -C $(LIBS_DIR)/readline-8.2 
 
 re: fclean all
 

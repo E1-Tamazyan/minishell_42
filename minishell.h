@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etamazya <etamazya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elen_t13 <elen_t13@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:42:32 by etamazya          #+#    #+#             */
-/*   Updated: 2024/11/24 19:33:24 by etamazya         ###   ########.fr       */
+/*   Updated: 2024/12/05 18:08:10 by elen_t13         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ typedef enum s_ttype
 	REDIR_OUT = 3,	 	// '>'
 	REDIR_APPEND = 4,	 // '>>'
 	REDIR_HEREDOC = 5, // '<<'
-	ENV_VAR = 6,		 // ENV
-	QUOTES = 7,		 // "" ''
+	// ENV_VAR = 6,		 // ENV
+	// QUOTES = 7,		 // "" ''
 	// T_SGL_QUOTES = 7, // ''
 	// T_DBL_QUOTES = 8, // ""
 } t_ttype;
@@ -52,149 +52,14 @@ typedef struct s_env
 	struct s_env *next;
 } t_env;
 
-
-// typedef struct s_cmd_token
-// {
-// 	char	*content;
-// 	char	*type;
-// 	t_ttype	*type;
-// 	int		flag;
-// 	int		quote_type;
-// } t_cmd_token;
-
 typedef struct s_cmd_lst
 {
-	size_t	index;
-	char	*content;
+	char	*cmd;
 	char	**args;
-// 	pid_t pid;
-// 	// t_descriptor *descriptors;
-
+	int		std_in;
+	int		std_out;
+// 	// t_descriptor *descriptors;`-
 }			t_cmd_lst;
-
-// ************************
-// ************************
-// **************** ARCHIVE
-// ************************
-
-// struct				s_cmd
-// {
-// 	t_shell *shell;
-// 	char *name;
-// 	char *orig_name;
-// 	t_list *options;
-// 	t_list *args;		//here was an attribute deprecated
-
-// 	t_list *tokens;
-
-// 	int redirection;
-// };
-
-// struct				s_cmd_container
-// {
-// 	t_shell			*shell;
-// 	t_cmd		**arr;
-// 	size_t			size;
-// 	size_t			current_cmd_index;
-// 	t_fd			*fds;
-// 	t_list 		 	*tokens;
-// };
-
-// ************************
-// ************************
-
-// typedef enum e_token_type
-// {
-// 	WORD,
-// 	S_PIPE,
-// 	D_PIPE,
-// 	S_AND,
-// 	D_AND,
-// 	D_QUOTE,
-// 	S_QUOTE,
-// 	IN_REDIR,
-// 	OUT_REDIR,
-// 	HERE_DOC,
-// 	APPEND_REDIR,
-// 	ERROR,
-// 	NONE,
-// 	FILEIN,
-// 	LIMITER,
-// 	FILEOUT,
-// 	APPEND_FILEOUT
-// }	t_token_type;
-
-// typedef struct s_split
-// {
-// 	char			*value;
-// 	t_token_type	type;
-// 	struct s_split	*next;
-// }	t_split;
-
-// typedef struct s_dollar_var
-// {
-// 	char	*str;
-// 	int		i;
-// 	int		is_dquote;
-// 	int		is_squote;
-// }	t_dollar_var;
-
-// typedef struct s_env
-// {
-// 	char	*var;
-// 	char	*value;
-// 	t_env	*next;
-// }	t_env;
-
-// typedef struct s_quote_var
-// {
-// 	int		j;
-// 	int		in_single_quote;
-// 	int		in_double_quote;
-// }	t_quote_var;
-
-// typedef struct s_merge_var
-// {
-// 	int		n1;
-// 	int		n2;
-// 	int		k;
-// 	int		i;
-// 	int		j;
-// 	char	**l;
-// 	char	**r;
-// 	char	**arr;
-// }	t_merge_var;
-
-// typedef struct s_vars
-// {
-// 	int		start;
-// 	int		end;
-// 	int		flag;
-// 	char	*input;
-// 	char	current_quote;
-// }	t_vars;
-
-// typedef struct s_minishell
-// {
-// 	t_split	*tokens;
-// 	t_env	*env;
-// 	int		(*fd)[2];
-// 	int		fd_in;
-// 	int		fd_out;
-// 	int		fd_heredoc;
-// 	int		is_builtin;
-// 	int		file_err;
-// 	int		pipes;
-// 	pid_t	*pid;
-// 	char	**cmd;
-// }	t_minishell;
-
-// ************************
-// **************** ARCHIVE
-// ************************
-// ************************
-
-// ### NOW WORKING ###
 
 typedef struct s_dollar
 {
@@ -213,8 +78,10 @@ typedef struct s_shell
 	t_dollar	*doll_lst;
 	t_env		*sorted_env_lst; // for export, to not change the original env_lst above
 	int			shlvl;		     // check
+	int			arg_count;
 	// char		pwd; // check
 	// char		*oldpwd; // check
+	
 } t_shell;
 
 // ### NOW WORKING ###
@@ -268,7 +135,9 @@ short	del_t_node(t_token *lst);
 int		check_cut_quotes(const char *input, int start, int i, t_shell *general);
 
 // **************
-int	check_dollar_sign(char *input, int i, t_shell *general);
+int		check_dollar_sign(char *input, int i, t_shell *general);
+int		exchange_to_cmd(t_shell *general);
+void	counter_args(t_tshell *general);
 
 // archive
 char *ft_substr(char const *s, unsigned int start, int len);

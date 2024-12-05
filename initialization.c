@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etamazya <etamazya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elen_t13 <elen_t13@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:38:08 by algaboya          #+#    #+#             */
-/*   Updated: 2024/11/24 19:40:30 by etamazya         ###   ########.fr       */
+/*   Updated: 2024/12/05 17:49:12 by elen_t13         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 int	init_input(char *input, t_shell *general, char **env)
 {
 	input = "";
+	create_env(env, general);
 	while (input)
 	{
-		create_env(env, general);
 		input = readline("\033[38;5;51m\033[48;5;16mminisHell:\033[0m "); //neon
 		// input = readline("\033[38;5;175m\033[48;5;153m minisHell:\033[0m "); // Pastel Theme
 		// input = readline("\033[38;5;129m\033[48;5;233m minisShell:\033[38;5;81m\033[0m "); //bright purples and blues with a dark background 
@@ -35,6 +35,8 @@ int	init_input(char *input, t_shell *general, char **env)
 		// init_general(general) // give every value of struct to it's corresponding one
 		general -> tok_lst = NULL;
 		init_tokens((const char *)input, general, 0);
+		//addd check_heredocs
+		exchange_to_cmd(general);
 		if (check_cmd(env, general)) // if 1 error
 			return (free(input), clean_list(&general->tok_lst), 1);
 		clean_list(&general->tok_lst);
